@@ -47,6 +47,21 @@ body {
     overflow-x: hidden;
 }
 
+/* モバイル最適化 */
+@media (max-width: 768px) {
+    body {
+        min-height: auto;
+        padding: 5px;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) and (max-height: 900px) {
+    body {
+        padding: 3px;
+    }
+}
+
 .container {
     max-width: 1200px;
     width: 100%;
@@ -979,127 +994,586 @@ body {
 
 @media (max-width: 768px) {
     body {
-        padding: 10px;
+        padding: 5px;
+        align-items: flex-start;
     }
     
-    .deck-body {
-        padding: 20px;
+    .container {
+        max-width: 100%;
     }
     
-    .deck-title {
-        font-size: 16px;
-        letter-spacing: 2px;
-    }
-    
-    .cassette-window {
-        min-height: 180px;
-    }
-    
-    .window-frame {
-        height: 140px;
-    }
-    
-    .reel {
-        width: 45px;
-        height: 45px;
-    }
-    
-    .reel-center {
-        width: 15px;
-        height: 15px;
-    }
-    
-    .counter {
-        font-size: 24px;
-    }
-    
-    .large-knob {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .main-button {
-        padding: 15px;
-    }
-    
-    .main-button .button-icon {
-        font-size: 22px;
-    }
-}
-
-@media (max-width: 480px) {
     .title-bar {
-        padding: 10px 15px;
+        padding: 8px 12px;
     }
     
     .deck-title {
         font-size: 14px;
+        letter-spacing: 1.5px;
+    }
+    
+    .brand-logo svg {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .deck-body {
+        padding: 12px;
+        gap: 12px;
+        grid-template-columns: 1fr;
+    }
+    
+    .cassette-section {
+        gap: 8px;
+    }
+    
+    .cassette-window {
+        min-height: 120px;
+        padding: 10px;
+    }
+    
+    .window-frame {
+        height: 100px;
+    }
+    
+    .cassette-body {
+        padding: 10px 15px;
+    }
+    
+    .reel {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .reel-center {
+        width: 12px;
+        height: 12px;
+    }
+    
+    .lower-controls {
+        flex-direction: row;
+        gap: 10px;
+        padding-top: 8px;
+    }
+    
+    .power-button {
+        padding: 8px 12px;
+    }
+    
+    .power-label {
+        font-size: 8px;
+    }
+    
+    .power-led {
+        width: 10px;
+        height: 10px;
+    }
+    
+    .knob {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .pitch-control label,
+    .pitch-label-small {
+        font-size: 7px;
+    }
+    
+    /* コントロールパネル最適化 */
+    .control-panel {
+        gap: 10px;
+    }
+    
+    .display-area {
+        padding: 10px;
+    }
+    
+    .meter-section {
+        margin-bottom: 8px;
+    }
+    
+    .meter-label {
+        font-size: 7px;
+        margin-bottom: 5px;
+    }
+    
+    .meter-channel {
+        gap: 5px;
+    }
+    
+    .channel-label {
+        font-size: 8px;
+    }
+    
+    .meter-led {
+        height: 10px;
+    }
+    
+    .counter-display {
+        padding: 8px 10px;
+        gap: 8px;
+    }
+    
+    .counter-reset-btn {
+        font-size: 6px;
+        padding: 3px 6px;
+    }
+    
+    .counter {
+        font-size: 24px;
+        letter-spacing: 3px;
+        min-width: 90px;
+    }
+    
+    .counter-unit {
+        font-size: 14px;
+    }
+    
+    .status-indicators {
+        padding: 5px 10px;
+        font-size: 6px;
+    }
+    
+    .status-button {
+        padding: 3px 6px;
+        font-size: 6px;
+    }
+    
+    /* ボタン群をコンパクトに */
+    .record-pause-row {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 6px;
+    }
+    
+    .function-button {
+        padding: 8px;
+        gap: 4px;
+    }
+    
+    .button-led {
+        width: 8px;
+        height: 8px;
+    }
+    
+    .function-button span {
+        font-size: 7px;
+    }
+    
+    .transport-buttons {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+    
+    .transport-button {
+        padding: 10px;
+        gap: 4px;
+    }
+    
+    .transport-button .button-icon {
+        font-size: 14px;
+    }
+    
+    .transport-button span {
+        font-size: 7px;
+    }
+    
+    .main-transport {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    
+    .main-button {
+        padding: 12px;
+        gap: 5px;
+    }
+    
+    .main-button .button-icon {
+        font-size: 20px;
+    }
+    
+    .main-button span {
+        font-size: 8px;
+        letter-spacing: 1px;
+    }
+    
+    .bottom-controls {
+        gap: 10px;
+        justify-content: space-around;
+    }
+    
+    .eject-button {
+        padding: 10px 12px;
+        gap: 4px;
+    }
+    
+    .eject-icon {
+        font-size: 16px;
+    }
+    
+    .eject-button span {
+        font-size: 7px;
+    }
+    
+    .mic-control {
+        gap: 4px;
+    }
+    
+    .mic-label {
+        font-size: 6px;
+    }
+    
+    .small-knob {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .rec-level-control {
+        gap: 4px;
+    }
+    
+    .rec-level-control label {
+        font-size: 6px;
+    }
+    
+    .large-knob {
+        width: 50px;
+        height: 50px;
+        border: 3px solid #2a2a2a;
+    }
+    
+    .large-knob .knob-indicator {
+        top: 8px;
+        width: 3px;
+        height: 14px;
+    }
+    
+    .scale-mark {
+        font-size: 6px;
+        top: -14px;
+    }
+    
+    /* テープ劣化ディスプレイ */
+    .tape-wear-display {
+        padding: 8px 12px;
+        gap: 8px;
+        margin-top: 10px;
+    }
+    
+    .wear-label {
+        font-size: 8px;
+    }
+    
+    .wear-bar {
+        height: 16px;
+    }
+    
+    .wear-status {
+        font-size: 8px;
+        min-width: 60px;
+    }
+    
+    /* 情報パネル */
+    .info-panel {
+        padding: 8px 12px;
+        margin-top: 5px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .info-item {
+        gap: 6px;
+    }
+    
+    .info-label {
+        font-size: 7px;
+    }
+    
+    .info-value {
+        font-size: 9px;
+    }
+}
+
+/* モバイル縦画面専用最適化 */
+@media (max-width: 480px) and (max-height: 900px) {
+    body {
+        padding: 3px;
+    }
+    
+    .title-bar {
+        padding: 5px 8px;
+        gap: 8px;
+    }
+    
+    .deck-title {
+        font-size: 11px;
         letter-spacing: 1px;
     }
     
     .brand-logo svg {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .deck-body {
+        padding: 10px;
+        gap: 10px;
+    }
+    
+    .cassette-section {
+        gap: 6px;
+    }
+    
+    .deck-label {
+        font-size: 7px;
+    }
+    
+    .cassette-window {
+        min-height: 100px;
+        padding: 8px;
+    }
+    
+    .window-frame {
+        height: 85px;
+    }
+    
+    .cassette-body {
+        padding: 8px 12px;
+    }
+    
+    .reel {
         width: 30px;
         height: 30px;
     }
     
-    .deck-body {
-        padding: 15px;
-        gap: 15px;
+    .reel-center {
+        width: 10px;
+        height: 10px;
     }
     
-    .cassette-window {
-        padding: 15px;
-        min-height: 150px;
+    .tape-strip {
+        height: 2px;
     }
     
-    .window-frame {
-        height: 120px;
-    }
-    
-    .cassette-body {
-        padding: 15px 20px;
-    }
-    
-    .reel {
-        width: 38px;
-        height: 38px;
+    .transport-label {
+        font-size: 6px;
+        margin-top: 6px;
     }
     
     .lower-controls {
-        flex-direction: column;
-        gap: 15px;
+        padding-top: 6px;
+        gap: 8px;
     }
     
-    .record-pause-row {
-        grid-template-columns: 1fr;
+    .power-button {
+        padding: 6px 10px;
     }
     
-    .transport-buttons {
-        grid-template-columns: 1fr;
+    .knob {
+        width: 35px;
+        height: 35px;
     }
     
-    .main-transport {
-        grid-template-columns: 1fr;
+    .knob-indicator {
+        top: 6px;
+        height: 10px;
     }
     
-    .bottom-controls {
-        flex-direction: column;
-        align-items: center;
+    .control-panel {
+        gap: 8px;
+    }
+    
+    .display-area {
+        padding: 8px;
+    }
+    
+    .meter-section {
+        margin-bottom: 6px;
+    }
+    
+    .meter-container {
+        gap: 4px;
+    }
+    
+    .meter-channel {
+        gap: 4px;
+    }
+    
+    .meter-led {
+        height: 8px;
+        gap: 2px;
+    }
+    
+    .meter-bar {
+        gap: 2px;
+    }
+    
+    .counter-display {
+        padding: 6px 8px;
     }
     
     .counter {
         font-size: 20px;
         letter-spacing: 2px;
+        min-width: 75px;
+    }
+    
+    .counter-unit {
+        font-size: 12px;
+    }
+    
+    .status-indicators {
+        padding: 4px 8px;
+    }
+    
+    .record-pause-row {
+        gap: 5px;
+    }
+    
+    .function-button {
+        padding: 6px;
+    }
+    
+    .transport-buttons {
+        gap: 5px;
+    }
+    
+    .transport-button {
+        padding: 8px;
+    }
+    
+    .main-transport {
+        gap: 6px;
+    }
+    
+    .main-button {
+        padding: 10px;
+    }
+    
+    .main-button .button-icon {
+        font-size: 18px;
+    }
+    
+    .bottom-controls {
+        gap: 8px;
+    }
+    
+    .eject-button {
+        padding: 8px 10px;
+    }
+    
+    .large-knob {
+        width: 45px;
+        height: 45px;
     }
     
     .tape-wear-display {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
+        padding: 6px 10px;
+        gap: 6px;
+        margin-top: 8px;
+    }
+    
+    .wear-bar {
+        height: 14px;
+    }
+    
+    .info-panel {
+        padding: 6px 10px;
+        margin-top: 4px;
+    }
+}
+
+/* 超小型画面 */
+@media (max-width: 380px) {
+    .deck-title {
+        font-size: 11px;
+    }
+    
+    .counter {
+        font-size: 18px;
+    }
+    
+    .main-button .button-icon {
+        font-size: 16px;
+    }
+    
+    .info-panel {
+        padding: 5px 8px;
+    }
+    
+    .tape-wear-display {
+        padding: 5px 8px;
+    }
+}
+
+/* 縦長画面での圧縮レイアウト */
+@media (max-width: 480px) and (max-height: 800px) {
+    .tape-wear-display {
+        flex-direction: row;
+        align-items: center;
     }
     
     .wear-status {
-        text-align: center;
+        text-align: right;
+    }
+    
+    .info-panel {
+        gap: 15px;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 480px) and (max-height: 700px) {
+    .cassette-window {
+        min-height: 80px;
+        padding: 6px;
+    }
+    
+    .window-frame {
+        height: 70px;
+    }
+    
+    .reel {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .reel-center {
+        width: 8px;
+        height: 8px;
+    }
+    
+    .deck-body {
+        padding: 8px;
+        gap: 8px;
+    }
+    
+    .control-panel {
+        gap: 6px;
+    }
+    
+    .display-area {
+        padding: 6px;
+    }
+    
+    .counter {
+        font-size: 16px;
+    }
+    
+    .main-button {
+        padding: 8px;
+    }
+    
+    .main-button .button-icon {
+        font-size: 16px;
+    }
+    
+    .tape-wear-display {
+        padding: 4px 8px;
+        margin-top: 6px;
+    }
+    
+    .info-panel {
+        padding: 4px 8px;
+        margin-top: 3px;
     }
 }
 

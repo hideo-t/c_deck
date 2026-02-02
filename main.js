@@ -675,8 +675,66 @@ function init() {
     // アニメーションループ開始
     requestAnimationFrame(animationLoop);
     
+    // カセット窓とリールの配置情報をデバッグ出力
+    debugCassetteLayout();
+    
     // 初期状態の表示
     console.log('準備完了。POWERボタンを押してください。');
+}
+
+// ===================================
+// デバッグ: カセット窓とリールの配置確認
+// ===================================
+function debugCassetteLayout() {
+    const cassetteWindow = document.querySelector('.cassette-window');
+    const cassetteBody = document.querySelector('.cassette-body');
+    const reelLeft = document.getElementById('reelLeft');
+    const reelRight = document.getElementById('reelRight');
+    
+    if (!cassetteWindow || !reelLeft || !reelRight) return;
+    
+    const windowRect = cassetteWindow.getBoundingClientRect();
+    const bodyRect = cassetteBody.getBoundingClientRect();
+    const leftRect = reelLeft.getBoundingClientRect();
+    const rightRect = reelRight.getBoundingClientRect();
+    
+    console.log('=== カセット窓レイアウト情報 ===');
+    console.log('窓サイズ:', {
+        width: windowRect.width.toFixed(1),
+        height: windowRect.height.toFixed(1),
+        aspectRatio: (windowRect.width / windowRect.height).toFixed(3)
+    });
+    console.log('カセット本体サイズ:', {
+        width: bodyRect.width.toFixed(1),
+        height: bodyRect.height.toFixed(1)
+    });
+    console.log('左リール:', {
+        centerX: (leftRect.left + leftRect.width / 2 - bodyRect.left).toFixed(1),
+        centerY: (leftRect.top + leftRect.height / 2 - bodyRect.top).toFixed(1),
+        diameter: leftRect.width.toFixed(1),
+        percentX: ((leftRect.left + leftRect.width / 2 - bodyRect.left) / bodyRect.width * 100).toFixed(1) + '%',
+        percentY: ((leftRect.top + leftRect.height / 2 - bodyRect.top) / bodyRect.height * 100).toFixed(1) + '%'
+    });
+    console.log('右リール:', {
+        centerX: (rightRect.left + rightRect.width / 2 - bodyRect.left).toFixed(1),
+        centerY: (rightRect.top + rightRect.height / 2 - bodyRect.top).toFixed(1),
+        diameter: rightRect.width.toFixed(1),
+        percentX: ((rightRect.left + rightRect.width / 2 - bodyRect.left) / bodyRect.width * 100).toFixed(1) + '%',
+        percentY: ((rightRect.top + rightRect.height / 2 - bodyRect.top) / bodyRect.height * 100).toFixed(1) + '%'
+    });
+    
+    const centerDistance = (rightRect.left + rightRect.width / 2) - (leftRect.left + leftRect.width / 2);
+    console.log('リール中心間距離:', {
+        pixels: centerDistance.toFixed(1),
+        percentOfBody: (centerDistance / bodyRect.width * 100).toFixed(1) + '%',
+        percentOfWindow: (centerDistance / windowRect.width * 100).toFixed(1) + '%'
+    });
+    console.log('リール直径:', {
+        pixels: leftRect.width.toFixed(1),
+        percentOfBodyHeight: (leftRect.width / bodyRect.height * 100).toFixed(1) + '%',
+        percentOfWindowHeight: (leftRect.width / windowRect.height * 100).toFixed(1) + '%'
+    });
+    console.log('================================');
 }
 
 // DOMContentLoaded後に初期化

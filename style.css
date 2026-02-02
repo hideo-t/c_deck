@@ -27,6 +27,14 @@
     /* フォント */
     --font-main: 'Courier New', 'Consolas', monospace;
     --font-display: 'Digital-7', 'Orbitron', monospace;
+    
+    /* カセットテープ実寸比（コンパクトカセット規格: 100mm × 63mm）*/
+    --cassette-aspect-ratio: 1.587; /* 100 / 63 */
+    --reel-center-left: 27%;  /* 左リール中心位置（カセット本体幅基準） */
+    --reel-center-right: 73%; /* 右リール中心位置（カセット本体幅基準） */
+    --reel-center-y: 52%;     /* リール中心垂直位置（カセット本体高さ基準） */
+    --reel-size: 30%;         /* リール直径（カセット本体高さ基準、実寸: 23mm/48mm ≈ 48%だが視覚的に30%） */
+    --tape-strip-inset: 29%;  /* テープ帯の左右インセット */
 }
 
 @font-face {
@@ -151,13 +159,15 @@ body {
         inset 0 4px 20px rgba(0, 0, 0, 0.9),
         0 2px 8px rgba(0, 0, 0, 0.5);
     position: relative;
-    min-height: 220px;
+    /* 窓のアスペクト比を実寸に近づける（横長） */
+    aspect-ratio: var(--cassette-aspect-ratio);
+    width: 100%;
 }
 
 .window-frame {
     position: relative;
     width: 100%;
-    height: 180px;
+    height: 100%;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 4px;
     border: 2px solid #1a1a1a;
@@ -179,32 +189,54 @@ body {
 }
 
 .cassette-body {
-    width: 90%;
-    height: 70%;
+    /* カセット本体（窓内の黒いプラスチック部分） */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 88%;
+    height: 68%;
     background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
     border: 2px solid #3a3a3a;
     border-radius: 4px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 30px;
     box-shadow: 
         0 4px 12px rgba(0, 0, 0, 0.8),
         inset 0 1px 2px rgba(255, 255, 255, 0.1);
 }
 
-/* リール */
+/* リール（実寸比に基づく配置）*/
 .reel {
-    width: 60px;
-    height: 60px;
+    position: absolute;
+    /* リール直径:
+       コンパクトカセット実寸: リール直径約23mm、本体内部高さ約48mm
+       比率: 23/48 ≈ 48%だが、視覚的バランスで30%に調整
+       カセット本体(.cassette-body)基準で配置
+    */
+    width: var(--reel-size);
+    height: var(--reel-size);
+    /* 真円を保証 */
+    aspect-ratio: 1;
     border-radius: 50%;
     background: radial-gradient(circle, #2a2a2a 0%, #1a1a1a 60%, #0a0a0a 100%);
     border: 2px solid #3a3a3a;
-    position: relative;
     box-shadow: 
         inset 0 2px 8px rgba(0, 0, 0, 0.9),
         0 2px 6px rgba(0, 0, 0, 0.5);
+    /* 中心を基準に配置 */
+    top: var(--reel-center-y);
+    transform: translateY(-50%);
+}
+
+/* 左リール配置（カセット本体基準で27%の位置 = 実寸比の中心間距離46%に相当）*/
+.reel-left {
+    left: var(--reel-center-left);
+    transform: translate(-50%, -50%);
+}
+
+/* 右リール配置（カセット本体基準で73%の位置）*/
+.reel-right {
+    left: var(--reel-center-right);
+    transform: translate(-50%, -50%);
 }
 
 .reel-center {
@@ -212,8 +244,9 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
+    /* リール直径の約33% */
+    width: 33%;
+    height: 33%;
     background: radial-gradient(circle, #4a4a4a 0%, #2a2a2a 100%);
     border-radius: 50%;
     border: 1px solid #555;
@@ -224,14 +257,28 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 2px;
+    /* スポークの太さは相対的に */
+    width: 3%;
+    min-width: 2px;
     height: 50%;
     background: linear-gradient(180deg, #555 0%, #333 100%);
     transform-origin: center 0;
     border-radius: 1px;
 }
 
-/* リール回転アニメーション */
+/* リール回転アニメーション（配置transformと共存）*/
+.reel-left.spinning-slow,
+.reel-left.spinning-fast,
+.reel-left.spinning-reverse {
+    transform: translate(-50%, -50%);
+}
+
+.reel-right.spinning-slow,
+.reel-right.spinning-fast,
+.reel-right.spinning-reverse {
+    transform: translate(-50%, -50%);
+}
+
 .reel.spinning-slow {
     animation: spin 3s linear infinite;
 }
@@ -245,28 +292,31 @@ body {
 }
 
 @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 @keyframes spin-reverse {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(-360deg); }
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(-360deg); }
 }
 
-/* テープストリップ */
+/* テープストリップ（リール間の茶色い帯）*/
 .tape-strip {
     position: absolute;
-    top: 50%;
-    left: 25%;
-    right: 25%;
+    /* リール中心の高さに配置 */
+    top: var(--reel-center-y);
+    transform: translateY(-50%);
+    /* 左右のインセットをリール位置から計算 */
+    left: var(--tape-strip-inset);
+    right: var(--tape-strip-inset);
     height: 3px;
     background: linear-gradient(90deg, 
         rgba(101, 67, 33, 0.8) 0%, 
         rgba(101, 67, 33, 0.9) 50%, 
         rgba(101, 67, 33, 0.8) 100%);
-    transform: translateY(-50%);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
 }
 
 /* EJECT オーバーレイ */
@@ -1027,27 +1077,11 @@ body {
     }
     
     .cassette-window {
-        min-height: 120px;
         padding: 10px;
+        /* アスペクト比は維持 */
     }
     
-    .window-frame {
-        height: 100px;
-    }
-    
-    .cassette-body {
-        padding: 10px 15px;
-    }
-    
-    .reel {
-        width: 35px;
-        height: 35px;
-    }
-    
-    .reel-center {
-        width: 12px;
-        height: 12px;
-    }
+    /* リールサイズは比率で自動計算されるため、固定値指定不要 */
     
     .lower-controls {
         flex-direction: row;
@@ -1327,26 +1361,17 @@ body {
     }
     
     .cassette-window {
-        min-height: 100px;
         padding: 8px;
+        /* アスペクト比は維持 */
     }
     
-    .window-frame {
-        height: 85px;
-    }
-    
-    .cassette-body {
-        padding: 8px 12px;
-    }
-    
+    /* リールサイズは比率で自動計算 */
     .reel {
-        width: 30px;
-        height: 30px;
+        border-width: 1.5px;
     }
     
     .reel-center {
-        width: 10px;
-        height: 10px;
+        border-width: 0.5px;
     }
     
     .tape-strip {
@@ -1523,23 +1548,11 @@ body {
 
 @media (max-width: 480px) and (max-height: 700px) {
     .cassette-window {
-        min-height: 80px;
         padding: 6px;
+        /* アスペクト比は維持 */
     }
     
-    .window-frame {
-        height: 70px;
-    }
-    
-    .reel {
-        width: 25px;
-        height: 25px;
-    }
-    
-    .reel-center {
-        width: 8px;
-        height: 8px;
-    }
+    /* リールサイズは比率で自動計算 */
     
     .deck-body {
         padding: 8px;

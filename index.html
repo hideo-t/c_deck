@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>カセットデッキ・シミュレーター</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- タイトル -->
+        <div class="title-bar">
+            <div class="brand-logo">
+                <svg width="40" height="40" viewBox="0 0 40 40">
+                    <rect x="5" y="10" width="30" height="20" fill="none" stroke="#888" stroke-width="2"/>
+                    <circle cx="15" cy="20" r="3" fill="#888"/>
+                    <circle cx="25" cy="20" r="3" fill="#888"/>
+                </svg>
+            </div>
+            <h1 class="deck-title">PRECISION DECK 3000</h1>
+        </div>
+
+        <!-- メインデッキ本体 -->
+        <div class="deck-body">
+            <!-- 左側: カセット窓エリア -->
+            <div class="cassette-section">
+                <div class="deck-label">STEREO CASSETTE DECK</div>
+                
+                <!-- カセット窓 -->
+                <div class="cassette-window" id="cassetteWindow">
+                    <div class="window-frame">
+                        <!-- カセットテープ -->
+                        <div class="cassette-tape" id="cassetteTape">
+                            <div class="cassette-body">
+                                <!-- 左リール -->
+                                <div class="reel reel-left" id="reelLeft">
+                                    <div class="reel-center"></div>
+                                    <div class="reel-spoke"></div>
+                                    <div class="reel-spoke" style="transform: rotate(60deg)"></div>
+                                    <div class="reel-spoke" style="transform: rotate(120deg)"></div>
+                                    <div class="reel-spoke" style="transform: rotate(180deg)"></div>
+                                    <div class="reel-spoke" style="transform: rotate(240deg)"></div>
+                                    <div class="reel-spoke" style="transform: rotate(300deg)"></div>
+                                </div>
+                                
+                                <!-- 右リール -->
+                                <div class="reel reel-right" id="reelRight">
+                                    <div class="reel-center"></div>
+                                    <div class="reel-spoke"></div>
+                                    <div class="reel-spoke" style="transform: rotate(60deg)"></div>
+                                    <div class="reel-spoke" style="transform: rotate(120deg)"></div>
+                                    <div class="reel-spoke" style="transform: rotate(180deg)"></div>
+                                    <div class="reel-spoke" style="transform: rotate(240deg)"></div>
+                                    <div class="reel-spoke" style="transform: rotate(300deg)"></div>
+                                </div>
+
+                                <!-- テープ表示 -->
+                                <div class="tape-strip"></div>
+                            </div>
+                        </div>
+
+                        <!-- EJECT時の演出 -->
+                        <div class="eject-overlay" id="ejectOverlay"></div>
+                    </div>
+                </div>
+
+                <!-- IC LOGIC TRANSPORT CONTROL -->
+                <div class="transport-label">IC LOGIC TRANSPORT CONTROL</div>
+
+                <!-- 下部操作エリア -->
+                <div class="lower-controls">
+                    <!-- POWERボタン -->
+                    <button class="power-button" id="powerButton">
+                        <span class="power-label">POWER</span>
+                        <div class="power-led" id="powerLed"></div>
+                    </button>
+
+                    <!-- PITCH CONTROL -->
+                    <div class="pitch-control">
+                        <label>PITCH CONTROL</label>
+                        <div class="knob-container">
+                            <div class="knob" id="pitchKnob">
+                                <div class="knob-indicator"></div>
+                            </div>
+                        </div>
+                        <span class="pitch-label-small">(TAPE 1 ONLY)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右側: ディスプレイ・操作パネル -->
+            <div class="control-panel">
+                <!-- 上部ディスプレイエリア -->
+                <div class="display-area">
+                    <!-- レベルメーター -->
+                    <div class="meter-section">
+                        <div class="meter-label">LEVEL</div>
+                        <div class="meter-container">
+                            <!-- 左チャンネル -->
+                            <div class="meter-channel">
+                                <span class="channel-label">L</span>
+                                <div class="meter-bar">
+                                    <div class="meter-led" data-level="1"></div>
+                                    <div class="meter-led" data-level="2"></div>
+                                    <div class="meter-led" data-level="3"></div>
+                                    <div class="meter-led" data-level="4"></div>
+                                    <div class="meter-led" data-level="5"></div>
+                                    <div class="meter-led" data-level="6"></div>
+                                    <div class="meter-led" data-level="7"></div>
+                                    <div class="meter-led warn" data-level="8"></div>
+                                    <div class="meter-led warn" data-level="9"></div>
+                                    <div class="meter-led peak" data-level="10"></div>
+                                </div>
+                            </div>
+                            <!-- 右チャンネル -->
+                            <div class="meter-channel">
+                                <span class="channel-label">R</span>
+                                <div class="meter-bar">
+                                    <div class="meter-led" data-level="1"></div>
+                                    <div class="meter-led" data-level="2"></div>
+                                    <div class="meter-led" data-level="3"></div>
+                                    <div class="meter-led" data-level="4"></div>
+                                    <div class="meter-led" data-level="5"></div>
+                                    <div class="meter-led" data-level="6"></div>
+                                    <div class="meter-led" data-level="7"></div>
+                                    <div class="meter-led warn" data-level="8"></div>
+                                    <div class="meter-led warn" data-level="9"></div>
+                                    <div class="meter-led peak" data-level="10"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- カウンターディスプレイ -->
+                    <div class="counter-display">
+                        <button class="counter-reset-btn" id="counterResetBtn">COUNTER RESET</button>
+                        <div class="counter" id="counter">0000</div>
+                        <div class="counter-unit">00</div>
+                    </div>
+                </div>
+
+                <!-- ステータスインジケーター -->
+                <div class="status-indicators">
+                    <button class="status-button" id="returnToZeroBtn">RETURN TO ZERO</button>
+                    <span class="status-spacer">DIMMER</span>
+                    <span class="status-spacer">REPEAT</span>
+                    <span class="status-spacer">PARALLEL REC</span>
+                </div>
+
+                <!-- 録音・一時停止ボタン -->
+                <div class="record-pause-row">
+                    <button class="function-button record-button" id="recordButton">
+                        <div class="button-led"></div>
+                        <span>RECORD</span>
+                    </button>
+                    <button class="function-button pause-button" id="pauseButton">
+                        <div class="button-led"></div>
+                        <span>PAUSE</span>
+                    </button>
+                    <button class="function-button mute-button" id="recMuteButton">
+                        <span>REC MUTE</span>
+                    </button>
+                </div>
+
+                <!-- トランスポートボタン -->
+                <div class="transport-buttons">
+                    <button class="transport-button rew-button" id="rewButton">
+                        <div class="button-icon">⏪</div>
+                        <span>REW</span>
+                    </button>
+                    <button class="transport-button fwd-button" id="fwdButton">
+                        <div class="button-icon">⏩</div>
+                        <span>F FWD</span>
+                    </button>
+                </div>
+
+                <!-- STOP・PLAYボタン -->
+                <div class="main-transport">
+                    <button class="main-button stop-button" id="stopButton">
+                        <div class="button-icon">■</div>
+                        <span>STOP</span>
+                    </button>
+                    <button class="main-button play-button" id="playButton">
+                        <div class="button-icon">▶</div>
+                        <span>PLAY</span>
+                    </button>
+                </div>
+
+                <!-- EJECT・REC LEVEL -->
+                <div class="bottom-controls">
+                    <button class="eject-button" id="ejectButton">
+                        <div class="eject-icon">⏏</div>
+                        <span>EJECT</span>
+                    </button>
+
+                    <!-- MICレベル -->
+                    <div class="mic-control">
+                        <span class="mic-label">MIC</span>
+                        <div class="small-knob" id="micKnob"></div>
+                    </div>
+
+                    <!-- REC LEVEL -->
+                    <div class="rec-level-control">
+                        <label>REC LEVEL</label>
+                        <div class="large-knob" id="recLevelKnob">
+                            <div class="knob-indicator"></div>
+                            <div class="knob-scale">
+                                <span class="scale-mark" style="transform: rotate(-135deg)">1</span>
+                                <span class="scale-mark" style="transform: rotate(-90deg)">3</span>
+                                <span class="scale-mark" style="transform: rotate(-45deg)">5</span>
+                                <span class="scale-mark" style="transform: rotate(0deg)">7</span>
+                                <span class="scale-mark" style="transform: rotate(45deg)">9</span>
+                                <span class="scale-mark" style="transform: rotate(90deg)">10</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- テープ劣化ゲージ -->
+        <div class="tape-wear-display">
+            <span class="wear-label">TAPE CONDITION:</span>
+            <div class="wear-bar">
+                <div class="wear-fill" id="wearFill"></div>
+            </div>
+            <span class="wear-status" id="wearStatus">EXCELLENT</span>
+        </div>
+
+        <!-- 情報表示 -->
+        <div class="info-panel">
+            <div class="info-item">
+                <span class="info-label">STATUS:</span>
+                <span class="info-value" id="statusText">STOPPED</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">MODE:</span>
+                <span class="info-value" id="modeText">---</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

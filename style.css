@@ -30,11 +30,11 @@
     
     /* カセットテープ実寸比（コンパクトカセット規格: 100mm × 63mm）*/
     --cassette-aspect-ratio: 1.587; /* 100 / 63 */
-    --reel-center-left: 25%;  /* 左リール中心位置（カセット本体幅基準） */
-    --reel-center-right: 75%; /* 右リール中心位置（カセット本体幅基準、中心間50%） */
-    --reel-center-y: 50%;     /* リール中心垂直位置（カセット本体高さ基準、真ん中） */
-    --reel-size: 45%;         /* リール直径（カセット本体高さ基準） */
-    --tape-strip-inset: 27%;  /* テープ帯の左右インセット */
+    --reel-center-left: 27%;  /* 左リール中心位置（カセット本体幅基準） */
+    --reel-center-right: 73%; /* 右リール中心位置（カセット本体幅基準） */
+    --reel-center-y: 52%;     /* リール中心垂直位置（カセット本体高さ基準） */
+    --reel-size: 30%;         /* リール直径（カセット本体高さ基準、実寸: 23mm/48mm ≈ 48%だが視覚的に30%） */
+    --tape-strip-inset: 29%;  /* テープ帯の左右インセット */
 }
 
 @font-face {
@@ -178,7 +178,9 @@ body {
 .cassette-tape {
     width: 100%;
     height: 100%;
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: transform 0.3s ease;
 }
 
@@ -205,12 +207,14 @@ body {
 /* リール（実寸比に基づく配置）*/
 .reel {
     position: absolute;
-    /* リール直径: カセット本体高さの45%
-       - 実寸では約48%（23mm / 48mm）だが、視覚的バランスで調整
-       - aspect-ratio: 1 で真円を保証
+    /* リール直径:
+       コンパクトカセット実寸: リール直径約23mm、本体内部高さ約48mm
+       比率: 23/48 ≈ 48%だが、視覚的バランスで30%に調整
+       カセット本体(.cassette-body)基準で配置
     */
     width: var(--reel-size);
     height: var(--reel-size);
+    /* 真円を保証 */
     aspect-ratio: 1;
     border-radius: 50%;
     background: radial-gradient(circle, #2a2a2a 0%, #1a1a1a 60%, #0a0a0a 100%);
@@ -218,17 +222,18 @@ body {
     box-shadow: 
         inset 0 2px 8px rgba(0, 0, 0, 0.9),
         0 2px 6px rgba(0, 0, 0, 0.5);
+    /* 中心を基準に配置 */
     top: var(--reel-center-y);
     transform: translateY(-50%);
 }
 
-/* 左リール配置（25% = 中心間距離50%）*/
+/* 左リール配置（カセット本体基準で27%の位置 = 実寸比の中心間距離46%に相当）*/
 .reel-left {
     left: var(--reel-center-left);
     transform: translate(-50%, -50%);
 }
 
-/* 右リール配置（75%）*/
+/* 右リール配置（カセット本体基準で73%の位置）*/
 .reel-right {
     left: var(--reel-center-right);
     transform: translate(-50%, -50%);
